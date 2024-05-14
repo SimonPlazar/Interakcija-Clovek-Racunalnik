@@ -1,0 +1,33 @@
+﻿<Window x:Class="SongDB.EditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SongDB"
+        mc:Ignorable="d"
+        Title="EditWindow" Height="550"  Width="400"
+        ResizeMode="NoResize"
+        >
+    <StackPanel Margin="10">
+        <Image Source="{Binding EditableTrack.BitmapImage}" Width="200" Margin="5" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
+
+        <Label Content="Artist:"/>
+        <TextBox Text="{Binding EditableTrack.Artist, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Label Content="Title:"/>
+        <TextBox Text="{Binding EditableTrack.Title, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Label Content="Album:"/>
+        <TextBox Text="{Binding EditableTrack.Album, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Label Content="Genre:"/>
+        <ComboBox SelectedItem="{Binding EditableTrack.Genre, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding AvailableGenres}"/>
+
+
+        <Label Content="Year:"/>
+        <TextBox Text="{Binding EditableTrack.Year, UpdateSourceTrigger=LostFocus}"/>
+
+        <Button Content="Update Track" Command="{Binding SaveCommand}" HorizontalAlignment="Right"/>
+    </StackPanel>
+</Window>
