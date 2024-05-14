@@ -18,6 +18,7 @@ public class MusicTrack : INotifyPropertyChanged
         Album = "(No Album)";
         Genre = "(No Genre)";
         Year = 404;
+        IsFavorite = false;
         //pathImage = "resources/cover2.png";
     }
 
@@ -28,6 +29,7 @@ public class MusicTrack : INotifyPropertyChanged
         Album = album;
         Genre = genre;
         Year = year;
+        IsFavorite = false;
         //pathImage = "resources/cover1.jpg";
     }
 
@@ -206,19 +208,20 @@ public class MusicTrack : INotifyPropertyChanged
         }
     }
 
-    private bool? isFavorite;
-    public bool? IsFavorite
+    private bool _isFavorite;
+    public bool IsFavorite
     {
-        get => isFavorite;
+        get => _isFavorite;
         set
         {
-            if (isFavorite != value)
+            if (_isFavorite != value)
             {
-                isFavorite = value;
+                _isFavorite = value;
                 OnPropertyChanged(nameof(IsFavorite));
             }
         }
     }
+
     public string ConvertBitmapImageToBase64(BitmapImage bitmapImage)
     {
         if (bitmapImage == null) return null;
@@ -252,7 +255,6 @@ public class MusicTrack : INotifyPropertyChanged
     }
 
     public string? ImageBase64 { get; set; }
-    // Kličite to metodo pred serializacijo
     public void PrepareForSerialization()
     {
         if (BitmapImage != null)
@@ -261,7 +263,6 @@ public class MusicTrack : INotifyPropertyChanged
         }
     }
 
-    // Kličite to metodo po deserializaciji
     public void InitializeAfterDeserialization()
     {
         if (!string.IsNullOrEmpty(ImageBase64))
@@ -291,6 +292,7 @@ public class MusicTrack : INotifyPropertyChanged
         Album = track.Album;
         Genre = track.Genre;
         Year = track.Year;
+        IsFavorite = track.IsFavorite;
 
         if (track.pathImage != null)
             pathImage = track.pathImage;
@@ -306,8 +308,6 @@ public class MusicTrack : INotifyPropertyChanged
             Bitrate = track.Bitrate;
         if (track.rating != null)
             Rating = track.Rating;
-        if (track.isFavorite != null)
-            IsFavorite = track.IsFavorite;
     }
 
     private void OnPropertyChanged(String propertyName)

@@ -41,9 +41,12 @@ public class MusicViewModel : INotifyPropertyChanged
         MusicTracks.Add(new MusicTrack("Artist3", "Title3", "Album3", "Rap", 2024));
     }
 
-    private void ToggleFavorite(object? parameter)
+    private void ToggleFavorite(object parameter)
     {
-        SelectedTrack.IsFavorite = !SelectedTrack.IsFavorite;
+        if (parameter is MusicTrack track)
+        {
+            track.IsFavorite = !track.IsFavorite;
+        }
     }
 
     private MusicTrack _selectedTrack;
