@@ -123,7 +123,6 @@
                                 <DockPanel>
                                     <DockPanel>
                                         <Label Content="Ocena: "></Label>
-                                        <local:RatingControl RatingChanged="RatingControl_RatingChanged" CurrentRating="{Binding SelectedSongRating, Mode=TwoWay}"/>
                                     </DockPanel>
 
                                     <Button Command="{Binding ToggleFavoriteCommand}" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Right">

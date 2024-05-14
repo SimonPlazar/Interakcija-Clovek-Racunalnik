@@ -139,9 +139,5 @@ namespace SongDB
                 SaveMusicData(filePath, musicTracks);
             }
         }
-        private void RatingControl_RatingChanged(object sender, RatingChangedEventArgs e)
-        {
-            ((MusicViewModel)DataContext).SelectedTrack.Rating = e.NewRating;
-        }
     }
 }
