@@ -13,6 +13,7 @@ public class MusicViewModel : INotifyPropertyChanged
     public ObservableCollection<string> AvailableGenres { get; set; }
     private EditWindow editMusicWindow;
 
+    public ICommand RatingChangedCommand { get; private set; }
     public ICommand ToggleFavoriteCommand { get; private set; }
     public ICommand AddMusicTrack { get; private set; }
     public ICommand EditMusicTrack { get; private set; }
@@ -35,6 +36,13 @@ public class MusicViewModel : INotifyPropertyChanged
             canExecute: (param) => !(SelectedTrack == null));
         SaveCommand = new Command((param) => SaveChanges());
         ToggleFavoriteCommand = new Command(ToggleFavorite);
+        RatingChangedCommand = new Command(param =>
+        {
+            if (param is object[] parameters && parameters.Length == 2)
+            {
+                ChangeRating(parameters[0], (int)parameters[1]);
+            }
+        });
 
         MusicTracks.Add(new MusicTrack("Artist1", "Title1", "Album1", "Rap", 2024));
         MusicTracks.Add(new MusicTrack("Artist2", "Title2", "Album2", "Rap", 2024));
@@ -46,6 +54,14 @@ public class MusicViewModel : INotifyPropertyChanged
         if (parameter is MusicTrack track)
         {
             track.IsFavorite = !track.IsFavorite;
+        }
+    }
+
+    private void ChangeRating(object parameter, int rating)
+    {
+        if (parameter is MusicTrack track)
+        {
+            track.Rating = rating;
         }
     }
 
@@ -123,12 +139,12 @@ public class MusicViewModel : INotifyPropertyChanged
             editMusicWindow.DataContext = this;
             editMusicWindow.Owner = Application.Current.MainWindow; // Da bo okno vedno nad glavnim oknom
             editMusicWindow.Show();
-            editMusicWindow.Closed += (sender, args) => editMusicWindow = null; // Poskrbite za čiščenje
+            editMusicWindow.Closed += (sender, args) => editMusicWindow = null;
         }
         else
         {
             EditableTrack = SelectedTrack.Clone();
-            editMusicWindow.Focus(); // Če je okno že odprto, ga samo oživite
+            editMusicWindow.Focus(); // Če je okno že odprto ga samo oživi
         }
     }
 
@@ -136,12 +152,11 @@ public class MusicViewModel : INotifyPropertyChanged
     {
         if (SelectedTrack != null && EditableTrack != null)
         {
-            // Posodobite originalni objekt z vrednostmi iz začasnega
             SelectedTrack.UpdateForm(EditableTrack);
-            SelectedTrack = null; // Počistite izbor
-            EditableTrack = null; // Počistite začasno kopijo
+            SelectedTrack = null;
+            EditableTrack = null;
             if (editMusicWindow != null)
-                editMusicWindow.Close(); // Zaprite okno
+                editMusicWindow.Close();
         }
     }
 
@@ -150,7 +165,7 @@ public class MusicViewModel : INotifyPropertyChanged
         if (SelectedTrack != null)
         {
             MusicTracks.Remove(SelectedTrack);
-            SelectedTrack = null; // Počistite izbor
+            SelectedTrack = null;
         }
     }
 

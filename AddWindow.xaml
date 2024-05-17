@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SongDB"
         mc:Ignorable="d"
-        Title="AddWindow" Height="580"  Width="400"
+        Title="AddWindow" Height="590"  Width="400"
         ResizeMode="NoResize"
         >
     <StackPanel Margin="10">
@@ -27,6 +27,9 @@
 
         <Label Content="Year:"/>
         <TextBox Text="{Binding NewMusicTrack.Year, UpdateSourceTrigger=LostFocus}"/>
+
+        <Label Content="Rating:"/>
+        <local:RatingControl Rating="{Binding NewMusicTrack.Rating, Mode=TwoWay}"/>
 
         <Button Content="Add Track" IsDefault="True" Click="Ok_Click" HorizontalAlignment="Right" Margin="0,10,0,0"/>
 

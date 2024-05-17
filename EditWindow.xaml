@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SongDB"
         mc:Ignorable="d"
-        Title="EditWindow" Height="550"  Width="400"
+        Title="EditWindow" Height="570"  Width="400"
         ResizeMode="NoResize"
         >
     <StackPanel Margin="10">
@@ -24,9 +24,11 @@
         <ComboBox SelectedItem="{Binding EditableTrack.Genre, UpdateSourceTrigger=PropertyChanged}"
                   ItemsSource="{Binding AvailableGenres}"/>
 
-
         <Label Content="Year:"/>
         <TextBox Text="{Binding EditableTrack.Year, UpdateSourceTrigger=LostFocus}"/>
+
+        <Label Content="Rating:"/>
+        <local:RatingControl Rating="{Binding EditableTrack.Rating, Mode=TwoWay}"/>
 
         <Button Content="Update Track" Command="{Binding SaveCommand}" HorizontalAlignment="Right"/>
     </StackPanel>

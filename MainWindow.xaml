@@ -122,8 +122,12 @@
                                 <Label></Label>
                                 <DockPanel>
                                     <DockPanel>
-                                        <Label Content="Ocena: "></Label>
-                                        <Button BorderThickness="0" Background="Transparent" HorizontalAlignment="Right" 
+                                        <Label Content="Ocena: "/>
+                                            <local:RatingControl Rating="{Binding Rating, Mode=TwoWay}"
+                                                             RatingChanged="RatingControl_RatingChanged"/>
+                                        <Label Content="{Binding Rating}"/>
+
+                                            <Button BorderThickness="0" Background="Transparent" HorizontalAlignment="Right" 
                                                 Command="{Binding DataContext.ToggleFavoriteCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" 
                                                 CommandParameter="{Binding}">
                                             <Image Width="20" Height="20">

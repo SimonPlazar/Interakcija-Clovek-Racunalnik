@@ -139,5 +139,12 @@ namespace SongDB
                 SaveMusicData(filePath, musicTracks);
             }
         }
+        private void RatingControl_RatingChanged(object sender, RatingChangedEventArgs e)
+        {
+            if (sender is RatingControl ratingControl && ratingControl.DataContext is MusicTrack track)
+            {
+                track.Rating = e.NewRating;
+            }
+        }
     }
 }

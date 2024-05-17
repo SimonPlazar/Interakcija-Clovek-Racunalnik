@@ -30,6 +30,7 @@ public class MusicTrack : INotifyPropertyChanged
         Genre = genre;
         Year = year;
         IsFavorite = false;
+        Rating = 3;
         //pathImage = "resources/cover1.jpg";
     }
 
@@ -186,25 +187,17 @@ public class MusicTrack : INotifyPropertyChanged
         }
     }
 
-    private int? count_rating;
-    private float? rating;
-    public float? Rating
+    private int? rating;
+    public int? Rating
     {
         get { return rating; }
         set
         {
-            count_rating ??= 0;
-            rating ??= 0;
-
-            if (value == 0)
-                rating = 0;
             if (value < 0 || value > 5)
-                ;
-            else
-            {
-                count_rating++;
-                rating += value / count_rating;
-            }
+                return;
+
+            rating = value;
+            OnPropertyChanged("Rating");
         }
     }
 
