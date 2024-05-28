@@ -9,9 +9,11 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using TagLib;
@@ -23,6 +25,8 @@ namespace SongDB
     /// </summary>
     public partial class MainWindow : Window
     {
+        private DispatcherTimer autoSaveTimer;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -30,6 +34,8 @@ namespace SongDB
 
             ObservableCollection<string> AvailableGenres = new ObservableCollection<string> { "Rap", "(No Genre)", "Hip-Hop", "Trap" };
             SaveGenres(AvailableGenres);
+
+            InitializeAutoSaveTimer();
         }
 
         private void SaveGenres(ObservableCollection<string> AvailableGenres)
@@ -141,10 +147,41 @@ namespace SongDB
         }
         private void RatingControl_RatingChanged(object sender, RatingChangedEventArgs e)
         {
-            if (sender is RatingControl ratingControl && ratingControl.DataContext is MusicTrack track)
+            if(e.Track is MusicTrack track && e.NewRating is int newRating)
             {
-                track.Rating = e.NewRating;
+                track.Rating = newRating;
             }
+        }
+
+        private void InitializeAutoSaveTimer()
+        {
+            autoSaveTimer = new DispatcherTimer();
+            autoSaveTimer.Tick += AutoSaveTimer_Tick;
+            UpdateAutoSaveSettings();
+        }
+
+        private void AutoSaveTimer_Tick(object sender, EventArgs e)
+        {
+            SaveMusicData("autosave.xml", ((MusicViewModel)DataContext).MusicTracks);
+        }
+
+        private void UpdateAutoSaveSettings()
+        {
+            if (Properties.Settings.Default.IsAutoSaveEnabled)
+            {
+                autoSaveTimer.Interval = TimeSpan.FromMinutes(Properties.Settings.Default.AutoSaveInterval);
+                autoSaveTimer.Start();
+            }
+            else
+            {
+                autoSaveTimer.Stop();
+            }
+        }
+
+        private void MoveOffScreenButton_Click(object sender, RoutedEventArgs e)
+        {
+            Storyboard moveButtonStoryboard = (Storyboard)this.FindResource("MoveButtonOffScreenAnimation");
+            moveButtonStoryboard.Begin();
         }
     }
 }

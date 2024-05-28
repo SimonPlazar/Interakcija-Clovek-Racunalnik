@@ -3,9 +3,11 @@
 public class RatingChangedEventArgs : EventArgs
 {
     public int NewRating { get; }
+    public MusicTrack Track { get; }
 
-    public RatingChangedEventArgs(int newRating, object tag)
+    public RatingChangedEventArgs(MusicTrack track, int newRating)
     {
         NewRating = newRating;
+        Track = track;
     }
 }

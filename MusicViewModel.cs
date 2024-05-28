@@ -13,7 +13,7 @@ public class MusicViewModel : INotifyPropertyChanged
     public ObservableCollection<string> AvailableGenres { get; set; }
     private EditWindow editMusicWindow;
 
-    public ICommand RatingChangedCommand { get; private set; }
+    public ICommand ChangeRatingCommand { get; private set; }
     public ICommand ToggleFavoriteCommand { get; private set; }
     public ICommand AddMusicTrack { get; private set; }
     public ICommand EditMusicTrack { get; private set; }
@@ -36,7 +36,7 @@ public class MusicViewModel : INotifyPropertyChanged
             canExecute: (param) => !(SelectedTrack == null));
         SaveCommand = new Command((param) => SaveChanges());
         ToggleFavoriteCommand = new Command(ToggleFavorite);
-        RatingChangedCommand = new Command(param =>
+        ChangeRatingCommand = new Command(param =>
         {
             if (param is object[] parameters && parameters.Length == 2)
             {

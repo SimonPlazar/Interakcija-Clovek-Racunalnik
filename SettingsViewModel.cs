@@ -17,11 +17,13 @@ namespace SongDB
         public ICommand AddGenre { get; private set; }
         public ICommand DeleteGenre { get; private set; }
         public ICommand EditGenre { get; private set; }
+        public ICommand SaveSettingsCommand { get; private set; }
 
         public SettingsViewModel()
         {
             //AvailableGenres = new ObservableCollection<string> { "Action", "Comedy", "Drama", "Fantasy", "Horror", "Romance", "SciFi", "Thriller" };
             AvailableGenres = LoadGenres();
+            LoadSettings();
             AddGenre = new Command(
                 execute: (param) => AddGenreCommand(this),
                 canExecute: (param) => !string.IsNullOrEmpty(TextBoxInput));
@@ -31,6 +33,12 @@ namespace SongDB
             EditGenre = new Command(
                 execute: (param) => EditGenreCommand(this),
                 canExecute: (param) => !string.IsNullOrEmpty(SelectedGenre) && !string.IsNullOrEmpty(TextBoxInput));
+            
+            SaveSettingsCommand = new Command(
+                execute: (param) => SaveSettings(),
+                canExecute: (param) => true
+                );
+
         }
         public ObservableCollection<string> LoadGenres()
         {
@@ -125,6 +133,43 @@ namespace SongDB
                 _textBoxInput = value;
                 OnPropertyChanged(nameof(TextBoxInput));
             }
+        }
+
+        private bool isAutoSaveEnabled;
+        public bool IsAutoSaveEnabled
+        {
+            get => isAutoSaveEnabled;
+            set
+            {
+                isAutoSaveEnabled = value;
+                OnPropertyChanged(nameof(IsAutoSaveEnabled));
+            }
+        }
+
+        private int autoSaveInterval;
+        public int AutoSaveInterval
+        {
+            get => autoSaveInterval;
+            set
+            {
+                autoSaveInterval = value;
+                OnPropertyChanged(nameof(AutoSaveInterval));
+            }
+        }
+
+        public bool IsAutoSaveIntervalEnabled => IsAutoSaveEnabled;
+
+        private void LoadSettings()
+        {
+            IsAutoSaveEnabled = Properties.Settings.Default.IsAutoSaveEnabled;
+            AutoSaveInterval = Properties.Settings.Default.AutoSaveInterval;
+        }
+
+        private void SaveSettings()
+        {
+            Properties.Settings.Default.IsAutoSaveEnabled = IsAutoSaveEnabled;
+            Properties.Settings.Default.AutoSaveInterval = AutoSaveInterval;
+            Properties.Settings.Default.Save();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

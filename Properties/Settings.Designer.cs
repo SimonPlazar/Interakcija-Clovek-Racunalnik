@@ -42,5 +42,29 @@ namespace SongDB.Properties {
                 return ((global::System.Collections.Specialized.StringCollection)(this["Genres"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsAutoSaveEnabled {
+            get {
+                return ((bool)(this["IsAutoSaveEnabled"]));
+            }
+            set {
+                this["IsAutoSaveEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int AutoSaveInterval {
+            get {
+                return ((int)(this["AutoSaveInterval"]));
+            }
+            set {
+                this["AutoSaveInterval"] = value;
+            }
+        }
     }
 }

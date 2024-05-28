@@ -14,10 +14,19 @@ namespace SongDB
             DependencyProperty.Register("Rating", typeof(int), typeof(RatingControl),
                 new PropertyMetadata(1, OnRatingChanged));
 
+        public static readonly DependencyProperty TrackProperty =
+            DependencyProperty.Register("Track", typeof(MusicTrack), typeof(RatingControl), new PropertyMetadata(null));
+
         public int Rating
         {
             get { return (int)GetValue(RatingProperty); }
             set { SetValue(RatingProperty, value); }
+        }
+
+        public MusicTrack Track
+        {
+            get { return (MusicTrack)GetValue(TrackProperty); }
+            set { SetValue(TrackProperty, value); }
         }
 
         public RatingControl()
@@ -37,7 +46,7 @@ namespace SongDB
         {
             int rating = int.Parse(param.ToString());
             Rating = rating;
-            RatingChanged?.Invoke(this, new RatingChangedEventArgs(rating, this.Tag));
+            RatingChanged?.Invoke(this, new RatingChangedEventArgs(Track, rating));
         }
 
         private static void OnRatingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -99,5 +108,7 @@ namespace SongDB
 
         public static readonly DependencyProperty Star5ColorProperty =
             DependencyProperty.Register("Star5Color", typeof(Brush), typeof(RatingControl), new PropertyMetadata(Brushes.Gray));
+
+        
     }
 }
